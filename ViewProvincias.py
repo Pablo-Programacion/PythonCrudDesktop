@@ -4,7 +4,6 @@ from tkinter import messagebox
 from turtle import heading
 
 from click import style
-from matplotlib.pyplot import text
 from ModeloMySQL import *
 from tkinter import *
 from tkinter import messagebox
@@ -97,7 +96,7 @@ class App:
 
     def editar(self, c, codigo, nombre):
         d = Data()
-       
+        
         arr = [codigo, nombre]
         d.UpdateItem(arr, c)
         messagebox.showinfo(title="Actualización",
