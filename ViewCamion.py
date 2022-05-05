@@ -2,7 +2,7 @@ from tkinter import messagebox
 from click import style
 from tkinter import *
 from tkinter import ttk
-from ControladorProvincias import *
+from ControladorCamion import *
 
 
 class App:
@@ -20,31 +20,41 @@ class App:
     def DibujarLabel(self):
         try:
             self.lbl_nombre_general = Label(self.ventana, foreground="white",
-                                            background="#314252", text="PROVINCIA", font=(20)).place(x=470, y=30)
-            self.lbl_codigo = Label(self.ventana, foreground="white",
-                                    background="#314252", text="Codigo Postal", font=(8)).place(x=20, y=140)
-            self.lbl_name = Label(self.ventana, foreground="white",
-                                  background="#314252", text="Nombre", font=(8)).place(x=60, y=190)
+                                            background="#314252", text="CAMIÓN", font=(20)).place(x=636, y=30)
+            self.lbl_matricula = Label(self.ventana, foreground="white",
+                                       background="#314252", text="Matricula", font=(8)).place(x=40, y=110)
+            self.lbl_potencia = Label(self.ventana, foreground="white",
+                                      background="#314252", text="Potencia", font=(8)).place(x=40, y=153)
+            self.lbl_modelo = Label(self.ventana, foreground="white",
+                                    background="#314252", text="Modelo", font=(8)).place(x=40, y=200)
+            self.lbl_tipo = Label(self.ventana, foreground="white",
+                                  background="#314252", text="Tipo", font=(8)).place(x=40, y=243)
         except:
             pass
 
     def DibujarEntry(self):
         try:
-            self.nombre = StringVar()
-            self.codigo = StringVar()
-            self.txt_codigo = Entry(self.ventana, font=(
-                'Arial', 12), textvariable=self.codigo).place(x=140, y=140)
-            self.txt_nombre = Entry(self.ventana, font=(
-                'Arial', 12), textvariable=self.nombre).place(x=140, y=190)
+            self.matricula = StringVar()
+            self.potencia = StringVar()
+            self.modelo = StringVar()
+            self.tipo = StringVar()
+            self.txt_matricula = Entry(self.ventana, font=(
+                'Arial', 12), textvariable=self.matricula).place(x=130, y=110)
+            self.txt_potencia = Entry(self.ventana, font=(
+                'Arial', 12), textvariable=self.potencia).place(x=130, y=153)
+            self.txt_modelo = Entry(self.ventana, font=(
+                'Arial', 12), textvariable=self.modelo).place(x=130, y=200)
+            self.txt_tipo = Entry(self.ventana, font=(
+                'Arial', 12), textvariable=self.tipo).place(x=130, y=243)
         except:
             pass
 
     def DibujarBoton(self):
         try:
             self.btn_guardar = Button(
-                self.ventana, text="Insertar", relief="flat", background="#0051C8", cursor="hand1", foreground="white", command=lambda: self.insert()).place(x=750, y=340, width=90)
+                self.ventana, text="Insertar", relief="flat", background="#0051C8", cursor="hand1", foreground="white", command=lambda: self.insert()).place(x=1040, y=340, width=90)
             self.btn_cancelar = Button(
-                self.ventana, text="Cerrar", relief="flat", background="red", cursor="hand1", foreground="white", command=lambda: self.cancelar()).place(x=850, y=340, width=90)
+                self.ventana, text="Cerrar", relief="flat", background="red", cursor="hand1", foreground="white", command=lambda: self.cancelar()).place(x=1150, y=340, width=90)
 
         except:
             pass
@@ -52,25 +62,31 @@ class App:
     def DibujarTabla(self):
         try:
             self.lista = ttk.Treeview(self.ventana, columns=(
-                1, 2), show="headings", height="8")
+                1, 2, 3, 4), show="headings", height="8")
             # estilos de tabla
             estilo = ttk.Style()
             estilo.theme_use("clam")
             estilo.configure("Treeview.Heading", background="#0051C8",
                              relief="flat", foreground="black")
 
-            self.lista.heading(1, text="Codigo")
-            self.lista.heading(2, text="Nombre")
+            self.lista.heading(1, text="Matricula")
+            self.lista.heading(2, text="Potencia")
+            self.lista.heading(3, text="Modelo")
+            self.lista.heading(4, text="Tipo")
+
             self.lista.column(1, anchor=CENTER)
             self.lista.column(2, anchor=CENTER)
-            self.lista.place(x=340, y=90, width=600)
+            self.lista.column(3, anchor=CENTER)
+            self.lista.column(4, anchor=CENTER)
+
+            self.lista.place(x=340, y=90, width=900)
 
             # Crear evento al hacer doble click en la tabla
             self.lista.bind("<Double 1>", self.obtenerFila)
 
             # Rellenar tabla
             d = ControlMySQL()
-            elements = d.obtenerProvincias()
+            elements = d.obtenerCamion()
             for i in elements:
                 self.lista.insert('', 'end', values=i)
         except:
@@ -78,18 +94,19 @@ class App:
 
     def insert(self):
         try:
-            int(self.codigo.get())
-            if self.codigo.get() != "":
-                arr = [self.codigo.get(), self.nombre.get()]
-                c = ControlMySQL()
-                c.insertProvincia(arr)
-                self.codigo.set("")
-                self.nombre.set("")
-                self.LimpiarTabla()
-                self.DibujarTabla()
-            else:
-                messagebox.showinfo(
-                    title="Error", message="Necesitas insertar un codigo")
+            arr = [self.matricula.get(), self.potencia.get(),
+                   self.modelo.get(), self.tipo.get()]
+            c = ControlMySQL()
+            c.insertCamion(arr)
+            self.matricula.set("")
+            self.potencia.set("")
+            self.modelo.set("")
+            self.tipo.set("")
+            self.LimpiarTabla()
+            self.DibujarTabla()
+
+            messagebox.showinfo(
+                title="Error", message="Necesitas insertar un codigo")
         except:
             messagebox.showinfo(title="Error",
                                 message="Error al insertar")
@@ -102,14 +119,20 @@ class App:
 
     def obtenerFila(self, event):
         try:
-            cod = StringVar()
-            nom = StringVar()
+            matricula = StringVar()
+            potencia = StringVar()
+            modelo = StringVar()
+            tipo = StringVar()
+
             nombreFila = self.lista.identify_row(event.y)
             elemento = self.lista.item(self.lista.focus())
-            c = elemento['values'][0]
-            n = elemento['values'][1]
-            cod.set(c)
-            nom.set(n)
+            m = elemento['values'][0]
+            p = elemento['values'][1]
+            mo = elemento['values'][2]
+            t = elemento['values'][3]
+            # ----------------------------------
+            matricula.set(m)
+            potencia.set(p)
             pop = Toplevel(self.ventana)
             pop.title("Editar provincia")
             # Centrar ventana en el medio
@@ -189,7 +212,7 @@ try:
     root = Tk()
     root.title("Crud Paqueteria")
     # Centrar ventana en el medio
-    ancho_ventana = 1000
+    ancho_ventana = 1300
     alto_ventana = 400
     x_ventana = root.winfo_screenwidth() // 2 - ancho_ventana // 2
     y_ventana = root.winfo_screenheight() // 2 - alto_ventana // 2

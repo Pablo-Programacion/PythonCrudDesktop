@@ -1,6 +1,6 @@
 import pymysql
 import conexion
-from ModeloProvinciasL import *
+from ModeloCamion import *
 
 
 class ControlMySQL:
@@ -11,8 +11,8 @@ class ControlMySQL:
 
         self.cursor = self.conn.cursor()
 
-    def insertProvincia(self, element):
-        self.d.insertProvincia(element)
+    def insertCamion(self, element):
+        self.d.insertCamion(element)
 
     def ReturnOneItem(self, ref):
         # we have ref like name of the element
@@ -21,8 +21,8 @@ class ControlMySQL:
         # return the element or nil
         return self.cursor.fetchone()
 
-    def obtenerProvincias(self):
-        return self.d.obtenerProvincias()
+    def obtenerCamion(self):
+        return self.d.obtenerCamion()
 
     def eliminarProvincia(self, ref):
         self.d.eliminarProvincia(ref)
