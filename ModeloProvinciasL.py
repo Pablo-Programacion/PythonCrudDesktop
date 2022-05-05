@@ -6,7 +6,6 @@ class Data:
 
     def __init__(self):
         self.conn = conexion.conectar('root', '')
-
         self.cursor = self.conn.cursor()
 
     def insertProvincia(self, element):
@@ -18,9 +17,16 @@ class Data:
         self.cursor.execute(sql)
         self.conn.commit()  # guardamos cambios
 
-    def ReturnOneItem(self, ref):
+    def buscarFiltroCodigo(self, ref):
         # we have ref like name of the element
-        sql = "select * from persona where Nombre = '{}'".format(ref)
+        sql = "select * from provincia where Codigo = '{}'".format(ref)
+        self.cursor.execute(sql)
+        # return the element or nil
+        return self.cursor.fetchone()
+
+    def buscarFiltroNombre(self, ref):
+        # we have ref like name of the element
+        sql = "select * from provincia where Nombre = '{}'".format(ref)
         self.cursor.execute(sql)
         # return the element or nil
         return self.cursor.fetchone()
@@ -30,8 +36,8 @@ class Data:
         self.cursor.execute(sql)
         return self.cursor.fetchall()
 
-    def Delete(self, ref):
-        sql = "delete from persona where Nombre = '{}'".format(ref)
+    def eliminarProvincia(self, ref):
+        sql = "delete from provincia where Codigo = '{}'".format(ref)
         self.cursor.execute(sql)
         self.conn.commit()
 
@@ -42,11 +48,3 @@ class Data:
         # execute the query
         self.cursor.execute(sql)
         self.conn.commit()  # guardamos cambios
-
-
-'''
-d = Data()		
-users = d.obtenerProvincias()
-for i in users:
-	print(i)
-'''

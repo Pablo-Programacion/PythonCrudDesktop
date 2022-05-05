@@ -8,3 +8,6 @@ def conectar(user, password):
         password="",
         db="paqueteria"
     )
+
+def desconectar(conexion):
+    conexion.close()

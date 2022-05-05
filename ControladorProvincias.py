@@ -1,6 +1,6 @@
 import pymysql
 import conexion
-from ModeloMySQL import *
+from ModeloProvinciasL import *
 
 
 class ControlMySQL:
@@ -24,18 +24,10 @@ class ControlMySQL:
     def obtenerProvincias(self):
         self.d.obtenerProvincias()
 
-    def Delete(self, ref):
-        sql = "delete from persona where Nombre = '{}'".format(ref)
-        self.cursor.execute(sql)
-        self.conn.commit()
+    def eliminarProvincia(self, ref):
+        self.d.eliminarProvincia(ref)
 
     def UpdateItem(self, element, ref):
-         self.d.UpdateItem(element,ref)
+        self.d.UpdateItem(element,ref)
 
 
-'''
-d = Data()		
-users = d.obtenerProvincias()
-for i in users:
-	print(i)
-'''
