@@ -83,20 +83,21 @@ class App:
         n = elemento['values'][1]
         cod.set(c)
         nom.set(n)
+        print(cod.get())
         pop = Toplevel(self.ventana)
         pop.geometry("400x200")
         txt_c = Entry(pop, textvariable=cod).place(x=40, y=50)
         txt_n = Entry(pop, textvariable=nom).place(x=40, y=100)
         # botones
         btn_editar = Button(pop, text="Actualizar", relief="flat", background="#00CE54", foreground="white",
-                            command=lambda: self.editar(c, cod.get, nom.get)).place(x=180, y=160, width=90)
+                            command=lambda: self.editar(c, cod.get(), nom.get())).place(x=180, y=160, width=90)
 
         btn_eliminar = Button(pop, text="Eliminar", relief="flat", background="red", foreground="white",
-                              command=lambda: self.eliminar(cod.get)).place(x=290, y=160, width=90)
+                              command=lambda: self.eliminar(cod.get())).place(x=290, y=160, width=90)
 
     def editar(self, c, codigo, nombre):
-        messagebox.showinfo(title="Actualización", message=c )
         d = Data()
+       
         arr = [codigo, nombre]
         d.UpdateItem(arr, c)
         messagebox.showinfo(title="Actualización",
