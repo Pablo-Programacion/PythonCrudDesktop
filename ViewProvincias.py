@@ -214,7 +214,6 @@ class App:
 
 def configProvincias():
     root = tkinter.Toplevel()
-    
     root.title("Crud Paqueteria")
     # Centrar ventana en el medio
     ancho_ventana = 1000
