@@ -1,4 +1,6 @@
+from doctest import master
 from tkinter import messagebox
+import tkinter
 from click import style
 from tkinter import *
 from tkinter import ttk
@@ -6,6 +8,7 @@ from ControladorProvincias import *
 
 
 class App:
+    root = 0
 
     def __init__(self, master):
         try:
@@ -13,7 +16,7 @@ class App:
             self.DibujarLabel()
             self.DibujarEntry()
             self.DibujarBoton()
-            self.DibujarTabla()
+            self.DibujarTabla("")
         except:
             pass
 
@@ -32,12 +35,19 @@ class App:
         try:
             self.nombre = StringVar()
             self.codigo = StringVar()
+            self.buscar = StringVar()
+
             self.txt_codigo = Entry(self.ventana, font=(
                 'Arial', 12), textvariable=self.codigo).place(x=140, y=140)
             self.txt_nombre = Entry(self.ventana, font=(
                 'Arial', 12), textvariable=self.nombre).place(x=140, y=190)
+            # Agregación de buscar
+            self.txt_buscar = Entry(self.ventana, font=(
+                'Arial', 12), textvariable=self.buscar).place(x=60, y=340)
+
         except:
-            pass
+            messagebox.showinfo(title="Error",
+                                message="Error en los entrys",parent=configProvincias())
 
     def DibujarBoton(self):
         try:
@@ -45,11 +55,17 @@ class App:
                 self.ventana, text="Insertar", relief="flat", background="#0051C8", cursor="hand1", foreground="white", command=lambda: self.insert()).place(x=750, y=340, width=90)
             self.btn_cancelar = Button(
                 self.ventana, text="Cerrar", relief="flat", background="red", cursor="hand1", foreground="white", command=lambda: self.cancelar()).place(x=850, y=340, width=90)
+            self.btn_buscar = Button(
+                self.ventana, text="Filtrado Código", relief="flat", background="Green", cursor="hand1", foreground="white", command=lambda: self.buscarProvincia(self.buscar.get())).place(x=260, y=339, width=100)
 
         except:
             pass
 
-    def DibujarTabla(self):
+    def buscarProvincia(self, ref):
+        self.LimpiarTabla()
+        self.DibujarTabla(ref)
+
+    def DibujarTabla(self, ref):
         try:
             self.lista = ttk.Treeview(self.ventana, columns=(
                 1, 2), show="headings", height="8")
@@ -67,14 +83,23 @@ class App:
 
             # Crear evento al hacer doble click en la tabla
             self.lista.bind("<Double 1>", self.obtenerFila)
-
-            # Rellenar tabla
-            d = ControlMySQL()
-            elements = d.obtenerProvincias()
-            for i in elements:
-                self.lista.insert('', 'end', values=i)
+            ''' He pensado ya que el filtrado no serviria mucho en este caso en hacer un id principal y que codigo
+            postal fuera opcional y añadir comunidad autonoma y poder hacer el filtrado de eso '''
+            if ref == "":
+                # Rellenar tabla
+                d = ControlMySQL()
+                elements = d.obtenerProvincias()
+                for i in elements:
+                    self.lista.insert('', 'end', values=i)
+            else:
+                # Rellenar tabla
+                d = Data()
+                elements = d.buscarFiltroCodigo(ref)
+                for i in elements:
+                    self.lista.insert('', 'end', values=i)
         except:
-            pass
+            messagebox.showinfo(
+                title="Error", message="error",parent=configProvincias())
 
     def insert(self):
         try:
@@ -86,13 +111,13 @@ class App:
                 self.codigo.set("")
                 self.nombre.set("")
                 self.LimpiarTabla()
-                self.DibujarTabla()
+                self.DibujarTabla("")
             else:
                 messagebox.showinfo(
-                    title="Error", message="Necesitas insertar un codigo")
+                    title="Error", message="Necesitas insertar un codigo",parent=configProvincias())
         except:
             messagebox.showinfo(title="Error",
-                                message="Error al insertar")
+                                message="Error al insertar",parent=configProvincias())
 
     def LimpiarTabla(self):
         try:
@@ -148,15 +173,15 @@ class App:
                 arr = [codigo, nombre]
                 j.UpdateItem(arr, c)
                 messagebox.showinfo(title="Actualización",
-                                    message="Se ha actualizado la base  de datos")
+                                    message="Se ha actualizado la base  de datos",parent=configProvincias())
                 self.LimpiarTabla()
-                self.DibujarTabla()
+                self.DibujarTabla("")
             else:
                 messagebox.showinfo(title="Error",
-                                    message="Necesitas insertar un codigo")
+                                    message="Necesitas insertar un codigo",parent=configProvincias())
         except:
             messagebox.showinfo(title="Error",
-                                message="Error al editar")
+                                message="Error al editar",parent=configProvincias())
 
     def eliminarProvincia(self, n):
         try:
@@ -165,28 +190,27 @@ class App:
                 j = ControlMySQL()
                 j.eliminarProvincia(n)
                 messagebox.showinfo(title="Eliminar",
-                                    message="Se ha actualizado la base  de datos")
+                                    message="Se ha actualizado la base  de datos",parent=configProvincias())
                 self.LimpiarTabla()
-                self.DibujarTabla()
+                self.DibujarTabla("")
             else:
                 messagebox.showinfo(title="Error",
-                                    message="Necesitas insertar un codigo")
+                                    message="Necesitas insertar un codigo",parent=configProvincias())
         except:
             messagebox.showinfo(title="Error",
-                                message="Error al eliminar")
+                                message="Error al eliminar",parent=configProvincias())
 
     def cancelar(self):
         try:
-            root.destroy()
             messagebox.showinfo(title="Base de Datos",
-                                message="Se ha cerrado la base de datos")
+                                message="Se ha cerrado la base de datos",parent=configProvincias())
         except:
             messagebox.showinfo(title="Error",
-                                message="Error al eliminar provincia")
+                                message="Error al cerrar la base de datos",parent=configProvincias())
 
 
-try:
-    root = Tk()
+def configProvincias():
+    root = tkinter.Toplevel()
     root.title("Crud Paqueteria")
     # Centrar ventana en el medio
     ancho_ventana = 1000
@@ -198,7 +222,5 @@ try:
     root.geometry(posicion)
     root.resizable(0, 0)
     root.config(background="#314252")
-    aplicacion = App(root)
-    root.mainloop()
-except:
-    pass
+    App(root)
+    return root

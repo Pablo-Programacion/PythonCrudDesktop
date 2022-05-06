@@ -1,4 +1,6 @@
+from doctest import master
 from tkinter import messagebox
+import tkinter
 from click import style
 from tkinter import *
 from tkinter import ttk
@@ -94,22 +96,24 @@ class App:
 
     def insert(self):
         try:
-            arr = [self.matricula.get(), self.potencia.get(),
-                   self.modelo.get(), self.tipo.get()]
-            c = ControlMySQL()
-            c.insertCamion(arr)
-            self.matricula.set("")
-            self.potencia.set("")
-            self.modelo.set("")
-            self.tipo.set("")
-            self.LimpiarTabla()
-            self.DibujarTabla()
-
-            messagebox.showinfo(
-                title="Error", message="Necesitas insertar un codigo")
+            int(self.potencia.get())
+            if self.matricula.get() != "":
+                arr = [self.matricula.get(), self.potencia.get(),
+                       self.modelo.get(), self.tipo.get()]
+                c = ControlMySQL()
+                c.insertCamion(arr)
+                self.matricula.set("")
+                self.potencia.set("")
+                self.modelo.set("")
+                self.tipo.set("")
+                self.LimpiarTabla()
+                self.DibujarTabla()
+            else:
+                messagebox.showinfo(
+                    title="Error", message="Necesitas insertar una matricula")
         except:
             messagebox.showinfo(title="Error",
-                                message="Error al insertar")
+                                message="Error al insertar las variables")
 
     def LimpiarTabla(self):
         try:
@@ -133,11 +137,13 @@ class App:
             # ----------------------------------
             matricula.set(m)
             potencia.set(p)
+            modelo.set(mo)
+            tipo.set(t)
             pop = Toplevel(self.ventana)
-            pop.title("Editar provincia")
+            pop.title("Editar camion")
             # Centrar ventana en el medio
-            ancho_ventana = 400
-            alto_ventana = 200
+            ancho_ventana = 430
+            alto_ventana = 330
             x_ventana = pop.winfo_screenwidth() // 2 - ancho_ventana // 2
             y_ventana = pop.winfo_screenheight() // 2 - alto_ventana // 2
             posicion = str(ancho_ventana) + "x" + str(alto_ventana) + \
@@ -145,48 +151,55 @@ class App:
             pop.geometry(posicion)
             pop.resizable(0, 0)
             pop.config(background="#24363e")
-            self.lbl_codigo = Label(pop, foreground="white",
-                                    background="#24363e", text="Codigo", font=(8)).place(x=70, y=50)
-            self.lbl_name = Label(pop, foreground="white",
-                                  background="#24363e", text="Nombre", font=(8)).place(x=70, y=100)
+            self.lbl_matricula = Label(pop, foreground="white",
+                                       background="#24363e", text="Matricula", font=(8)).place(x=70, y=50)
+            self.lbl_potencia = Label(pop, foreground="white",
+                                      background="#24363e", text="Potencia", font=(8)).place(x=70, y=100)
+            self.lbl_modelo = Label(pop, foreground="white",
+                                    background="#24363e", text="Modelo", font=(8)).place(x=70, y=150)
+            self.lbl_tipo = Label(pop, foreground="white",
+                                  background="#24363e", text="Tipo", font=(8)).place(x=70, y=200)
 
-            txt_c = Entry(pop, textvariable=cod, font=(8)
+            txt_m = Entry(pop, textvariable=matricula, font=(8)
                           ).place(x=160, y=50, width=180)
-            txt_n = Entry(pop, textvariable=nom, font=(8)
+            txt_p = Entry(pop, textvariable=potencia, font=(8)
                           ).place(x=160, y=100, width=180)
+            txt_mo = Entry(pop, textvariable=modelo, font=(8)
+                           ).place(x=160, y=150, width=180)
+            txt_t = Entry(pop, textvariable=tipo, font=(8)
+                          ).place(x=160, y=200, width=180)
             # botones
             btn_editar = Button(pop, text="Actualizar", relief="flat", background="#00CE54", foreground="white",
-                                command=lambda: self.editar(c, cod.get(), nom.get())).place(x=180, y=160, width=90)
+                                command=lambda: self.editarCamion(m, matricula.get(), potencia.get(), modelo.get(), tipo.get())).place(x=70, y=250, width=90)
 
             btn_eliminar = Button(pop, text="Eliminar", relief="flat", background="red", foreground="white",
-                                  command=lambda: self.eliminarProvincia(cod.get())).place(x=290, y=160, width=90)
+                                  command=lambda: self.eliminarCamion(matricula.get())).place(x=250, y=250, width=90)
         except:
             pass
 
-    def editar(self, c, codigo, nombre):
+    def editarCamion(self, m, matricula, potencia, modelo, tipo):
         try:
-            int(codigo)
-            if codigo != "":
+            int(potencia)
+            if matricula != "":
                 j = ControlMySQL()
-                arr = [codigo, nombre]
-                j.UpdateItem(arr, c)
+                arr = [matricula, potencia, modelo, tipo]
+                j.UpdateItem(arr, m)
                 messagebox.showinfo(title="Actualización",
                                     message="Se ha actualizado la base  de datos")
                 self.LimpiarTabla()
                 self.DibujarTabla()
             else:
                 messagebox.showinfo(title="Error",
-                                    message="Necesitas insertar un codigo")
+                                    message="Necesitas insertar una matricula")
         except:
             messagebox.showinfo(title="Error",
-                                message="Error al editar")
+                                message="Error al editar las variables")
 
-    def eliminarProvincia(self, n):
+    def eliminarCamion(self, n):
         try:
-            int(n)
             if n != "":
                 j = ControlMySQL()
-                j.eliminarProvincia(n)
+                j.eliminarCamion(n)
                 messagebox.showinfo(title="Eliminar",
                                     message="Se ha actualizado la base  de datos")
                 self.LimpiarTabla()
@@ -200,16 +213,16 @@ class App:
 
     def cancelar(self):
         try:
-            root.destroy()
+
             messagebox.showinfo(title="Base de Datos",
                                 message="Se ha cerrado la base de datos")
         except:
             messagebox.showinfo(title="Error",
-                                message="Error al eliminar provincia")
+                                message="Error al cerrar la base de datos")
 
 
-try:
-    root = Tk()
+def configCamion():
+    root = tkinter.Toplevel()
     root.title("Crud Paqueteria")
     # Centrar ventana en el medio
     ancho_ventana = 1300
@@ -221,7 +234,5 @@ try:
     root.geometry(posicion)
     root.resizable(0, 0)
     root.config(background="#314252")
-    aplicacion = App(root)
-    root.mainloop()
-except:
-    pass
+    App(root)
+    return root

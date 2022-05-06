@@ -24,8 +24,8 @@ class ControlMySQL:
     def obtenerCamion(self):
         return self.d.obtenerCamion()
 
-    def eliminarProvincia(self, ref):
-        self.d.eliminarProvincia(ref)
+    def eliminarCamion(self, ref):
+        self.d.eliminarCamion(ref)
 
     def UpdateItem(self, element, ref):
         self.d.UpdateItem(element,ref)

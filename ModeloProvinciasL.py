@@ -9,20 +9,19 @@ class Data:
         self.cursor = self.conn.cursor()
 
     def insertProvincia(self, element):
-        # our element contend the name, age and the carreer of the student
-        # in position 0, 1, 2
         sql = "insert into provincia(Codigo,Nombre) values('{}', '{}')".format(
             element[0], element[1])
-        # execute the query
+       
         self.cursor.execute(sql)
-        self.conn.commit()  # guardamos cambios
+        self.conn.commit()  
 
     def buscarFiltroCodigo(self, ref):
         # we have ref like name of the element
         sql = "select * from provincia where Codigo = '{}'".format(ref)
+        print(sql)
         self.cursor.execute(sql)
         # return the element or nil
-        return self.cursor.fetchone()
+        return self.cursor.fetchall()
 
     def buscarFiltroNombre(self, ref):
         # we have ref like name of the element

@@ -14,15 +14,11 @@ class ControlMySQL:
     def insertProvincia(self, element):
         self.d.insertProvincia(element)
 
-    def ReturnOneItem(self, ref):
-        # we have ref like name of the element
-        sql = "select * from persona where Nombre = '{}'".format(ref)
-        self.cursor.execute(sql)
-        # return the element or nil
-        return self.cursor.fetchone()
-
     def obtenerProvincias(self):
         return self.d.obtenerProvincias()
+
+    def buscarFiltroCodigo(self, ref):
+        return self.d.buscarFiltroCodigo(self,ref)
 
     def eliminarProvincia(self, ref):
         self.d.eliminarProvincia(ref)
