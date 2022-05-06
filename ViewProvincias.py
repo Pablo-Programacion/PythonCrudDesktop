@@ -13,6 +13,7 @@ class App:
     def __init__(self, master):
         try:
             self.ventana = master
+            self.ventana.attributes("-topmost", 1)
             self.DibujarLabel()
             self.DibujarEntry()
             self.DibujarBoton()
@@ -47,7 +48,7 @@ class App:
 
         except:
             messagebox.showinfo(title="Error",
-                                message="Error en los entrys",parent=configProvincias())
+                                message="Error en los entrys")
 
     def DibujarBoton(self):
         try:
@@ -99,7 +100,7 @@ class App:
                     self.lista.insert('', 'end', values=i)
         except:
             messagebox.showinfo(
-                title="Error", message="error",parent=configProvincias())
+                title="Error", message="error")
 
     def insert(self):
         try:
@@ -114,10 +115,10 @@ class App:
                 self.DibujarTabla("")
             else:
                 messagebox.showinfo(
-                    title="Error", message="Necesitas insertar un codigo",parent=configProvincias())
+                    title="Error", message="Necesitas insertar un codigo")
         except:
             messagebox.showinfo(title="Error",
-                                message="Error al insertar",parent=configProvincias())
+                                message="Error al insertar")
 
     def LimpiarTabla(self):
         try:
@@ -126,6 +127,7 @@ class App:
             pass
 
     def obtenerFila(self, event):
+        self.ventana.attributes("-topmost", 0)
         try:
             cod = StringVar()
             nom = StringVar()
@@ -172,16 +174,17 @@ class App:
                 j = ControlMySQL()
                 arr = [codigo, nombre]
                 j.UpdateItem(arr, c)
-                messagebox.showinfo(title="Actualización",
-                                    message="Se ha actualizado la base  de datos",parent=configProvincias())
                 self.LimpiarTabla()
                 self.DibujarTabla("")
+              
+                messagebox.showinfo(title="Crud Paqueteria",
+                                    message="Editado")
             else:
                 messagebox.showinfo(title="Error",
-                                    message="Necesitas insertar un codigo",parent=configProvincias())
+                                    message="Necesitas insertar un codigo")
         except:
             messagebox.showinfo(title="Error",
-                                message="Error al editar",parent=configProvincias())
+                                message="Error al editar")
 
     def eliminarProvincia(self, n):
         try:
@@ -190,27 +193,28 @@ class App:
                 j = ControlMySQL()
                 j.eliminarProvincia(n)
                 messagebox.showinfo(title="Eliminar",
-                                    message="Se ha actualizado la base  de datos",parent=configProvincias())
+                                    message="Se ha actualizado la base  de datos")
                 self.LimpiarTabla()
                 self.DibujarTabla("")
             else:
                 messagebox.showinfo(title="Error",
-                                    message="Necesitas insertar un codigo",parent=configProvincias())
+                                    message="Necesitas insertar un codigo")
         except:
             messagebox.showinfo(title="Error",
-                                message="Error al eliminar",parent=configProvincias())
+                                message="Error al eliminar")
 
     def cancelar(self):
         try:
             messagebox.showinfo(title="Base de Datos",
-                                message="Se ha cerrado la base de datos",parent=configProvincias())
+                                message="Se ha cerrado la base de datos")
         except:
             messagebox.showinfo(title="Error",
-                                message="Error al cerrar la base de datos",parent=configProvincias())
+                                message="Error al cerrar la base de datos")
 
 
 def configProvincias():
     root = tkinter.Toplevel()
+    
     root.title("Crud Paqueteria")
     # Centrar ventana en el medio
     ancho_ventana = 1000

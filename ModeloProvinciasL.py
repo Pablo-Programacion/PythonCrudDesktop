@@ -18,7 +18,6 @@ class Data:
     def buscarFiltroCodigo(self, ref):
         # we have ref like name of the element
         sql = "select * from provincia where Codigo = '{}'".format(ref)
-        print(sql)
         self.cursor.execute(sql)
         # return the element or nil
         return self.cursor.fetchall()

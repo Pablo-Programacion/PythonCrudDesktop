@@ -71,5 +71,5 @@ class general12:
         "+" + str(x_ventana) + "+" + str(y_ventana)
     root.geometry(posicion)
     root.resizable(0, 0)
-
+  
     root.mainloop()

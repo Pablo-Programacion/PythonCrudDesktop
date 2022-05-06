@@ -223,6 +223,7 @@ class App:
 
 def configCamion():
     root = tkinter.Toplevel()
+    root.attributes("-topmost", 1)
     root.title("Crud Paqueteria")
     # Centrar ventana en el medio
     ancho_ventana = 1300
