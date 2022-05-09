@@ -39,10 +39,10 @@ class Data:
         self.cursor.execute(sql)
         self.conn.commit()
 
-    def UpdateItem(self, element, ref):
+    def UpdateItem(self, nombre, ref):
         # element contains the values and ref is the name of the item that we want change
-        sql = "update provincia set Codigo = '{}',Nombre = '{}' where Codigo = '{}'".format(
-            element[0], element[1], ref)
+        sql = "update provincia set Nombre = '{}' where Codigo = '{}'".format(
+            nombre, ref)
         # execute the query
         self.cursor.execute(sql)
         self.conn.commit()  # guardamos cambios

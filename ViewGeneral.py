@@ -4,6 +4,7 @@ from tkinter.font import BOLD
 import ViewProvincias
 import ViewCamion
 
+    
 
 class general12:
     def __init__(self, master):
@@ -12,6 +13,7 @@ class general12:
 
     def generate_new_window2():
         window = ViewProvincias.configProvincias()
+        
     # Camión
 
     def generate_new_window():
@@ -62,7 +64,7 @@ class general12:
                                           text="Iniciar Sesión",
                                           command=generate_new_window4, relief="flat",font=("Arial", 12), foreground="white",
                                           background="#314252").place(x=110, y=750)
-    root.overrideredirect(True)
+    
     ancho_ventana = 1300
     alto_ventana = 800
     x_ventana = root.winfo_screenwidth() // 2 - ancho_ventana // 2
@@ -71,5 +73,5 @@ class general12:
         "+" + str(x_ventana) + "+" + str(y_ventana)
     root.geometry(posicion)
     root.resizable(0, 0)
-  
+    root.attributes("-topmost", False)
     root.mainloop()

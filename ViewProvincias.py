@@ -11,9 +11,10 @@ class App:
     root = 0
 
     def __init__(self, master):
+
         try:
+            master.attributes("-topmost", False)
             self.ventana = master
-            self.ventana.attributes("-topmost", 1)
             self.DibujarLabel()
             self.DibujarEntry()
             self.DibujarBoton()
@@ -76,7 +77,7 @@ class App:
             estilo.configure("Treeview.Heading", background="#0051C8",
                              relief="flat", foreground="black")
 
-            self.lista.heading(1, text="Codigo")
+            self.lista.heading(1, text="Codigo Postal")
             self.lista.heading(2, text="Nombre")
             self.lista.column(1, anchor=CENTER)
             self.lista.column(2, anchor=CENTER)
@@ -84,8 +85,6 @@ class App:
 
             # Crear evento al hacer doble click en la tabla
             self.lista.bind("<Double 1>", self.obtenerFila)
-            ''' He pensado ya que el filtrado no serviria mucho en este caso en hacer un id principal y que codigo
-            postal fuera opcional y añadir comunidad autonoma y poder hacer el filtrado de eso '''
             if ref == "":
                 # Rellenar tabla
                 d = ControlMySQL()
@@ -127,7 +126,7 @@ class App:
             pass
 
     def obtenerFila(self, event):
-        self.ventana.attributes("-topmost", 0)
+
         try:
             cod = StringVar()
             nom = StringVar()
@@ -149,59 +148,56 @@ class App:
             pop.geometry(posicion)
             pop.resizable(0, 0)
             pop.config(background="#24363e")
-            self.lbl_codigo = Label(pop, foreground="white",
-                                    background="#24363e", text="Codigo", font=(8)).place(x=70, y=50)
+            
             self.lbl_name = Label(pop, foreground="white",
-                                  background="#24363e", text="Nombre", font=(8)).place(x=70, y=100)
+                                  background="#24363e", text="Nombre", font=(8)).place(x=70, y=70)
 
-            txt_c = Entry(pop, textvariable=cod, font=(8)
-                          ).place(x=160, y=50, width=180)
+           
             txt_n = Entry(pop, textvariable=nom, font=(8)
-                          ).place(x=160, y=100, width=180)
+                          ).place(x=160, y=70, width=180)
             # botones
             btn_editar = Button(pop, text="Actualizar", relief="flat", background="#00CE54", foreground="white",
-                                command=lambda: self.editar(c, cod.get(), nom.get())).place(x=180, y=160, width=90)
+                                command=lambda: self.editar(pop, c, nom.get())).place(x=70, y=140, width=90)
 
             btn_eliminar = Button(pop, text="Eliminar", relief="flat", background="red", foreground="white",
-                                  command=lambda: self.eliminarProvincia(cod.get())).place(x=290, y=160, width=90)
+                                  command=lambda: self.eliminarProvincia(pop, cod.get())).place(x=250, y=140, width=90)
         except:
             pass
 
-    def editar(self, c, codigo, nombre):
+    def editar(self, pop, c, nombre):
         try:
-            int(codigo)
-            if codigo != "":
+            if nombre != "":
                 j = ControlMySQL()
-                arr = [codigo, nombre]
-                j.UpdateItem(arr, c)
+                j.UpdateItem(nombre, c)
+                messagebox.showinfo(title="Crud Paqueteria",
+                                    message="Editado", parent=pop)
                 self.LimpiarTabla()
                 self.DibujarTabla("")
-              
-                messagebox.showinfo(title="Crud Paqueteria",
-                                    message="Editado")
+                pop.destroy()
             else:
                 messagebox.showinfo(title="Error",
-                                    message="Necesitas insertar un codigo")
+                                    message="No dejes la provincia vacia", parent=pop)
         except:
             messagebox.showinfo(title="Error",
-                                message="Error al editar")
+                                message="Error al editar", parent=pop)
 
-    def eliminarProvincia(self, n):
+    def eliminarProvincia(self, pop, n):
         try:
             int(n)
             if n != "":
                 j = ControlMySQL()
                 j.eliminarProvincia(n)
                 messagebox.showinfo(title="Eliminar",
-                                    message="Se ha actualizado la base  de datos")
+                                    message="Se ha actualizado la base  de datos", parent=pop)
                 self.LimpiarTabla()
                 self.DibujarTabla("")
+                pop.destroy()
             else:
                 messagebox.showinfo(title="Error",
-                                    message="Necesitas insertar un codigo")
+                                    message="Necesitas insertar un codigo", parent=pop)
         except:
             messagebox.showinfo(title="Error",
-                                message="Error al eliminar")
+                                message="Error al eliminar", parent=pop)
 
     def cancelar(self):
         try:
@@ -225,5 +221,6 @@ def configProvincias():
     root.geometry(posicion)
     root.resizable(0, 0)
     root.config(background="#314252")
+    root.attributes("-topmost", True)
     App(root)
     return root

@@ -223,7 +223,6 @@ class App:
 
 def configCamion():
     root = tkinter.Toplevel()
-    root.attributes("-topmost", 1)
     root.title("Crud Paqueteria")
     # Centrar ventana en el medio
     ancho_ventana = 1300
@@ -235,5 +234,6 @@ def configCamion():
     root.geometry(posicion)
     root.resizable(0, 0)
     root.config(background="#314252")
+
     App(root)
     return root

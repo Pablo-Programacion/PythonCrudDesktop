@@ -23,7 +23,7 @@ class ControlMySQL:
     def eliminarProvincia(self, ref):
         self.d.eliminarProvincia(ref)
 
-    def UpdateItem(self, element, ref):
-        self.d.UpdateItem(element,ref)
+    def UpdateItem(self, nombre, ref):
+        self.d.UpdateItem(nombre,ref)
 
 
