@@ -11,18 +11,18 @@ class App:
     root = 0
 
     def __init__(self, master):
-
         try:
             master.attributes("-topmost", False)
             self.ventana = master
-            self.DibujarLabel()
-            self.DibujarEntry()
-            self.DibujarBoton()
+            self.DibujarLabel(master)
+            self.DibujarEntry(master)
+            self.DibujarBoton(master)
             self.DibujarTabla("")
         except:
-            pass
+            messagebox.showinfo(title="Error",
+                                message="No se pudieron dibujar los contains", parent=master)
 
-    def DibujarLabel(self):
+    def DibujarLabel(self, master):
         try:
             self.lbl_nombre_general = Label(self.ventana, foreground="white",
                                             background="#314252", text="PROVINCIA", font=(20)).place(x=470, y=30)
@@ -31,9 +31,10 @@ class App:
             self.lbl_name = Label(self.ventana, foreground="white",
                                   background="#314252", text="Nombre", font=(8)).place(x=60, y=190)
         except:
-            pass
+            messagebox.showinfo(title="Error",
+                                message="No se pudieron dibujar los labels", parent=master)
 
-    def DibujarEntry(self):
+    def DibujarEntry(self, master):
         try:
             self.nombre = StringVar()
             self.codigo = StringVar()
@@ -49,23 +50,28 @@ class App:
 
         except:
             messagebox.showinfo(title="Error",
-                                message="Error en los entrys")
+                                message="Error en los entrys", parent=master)
 
-    def DibujarBoton(self):
+    def DibujarBoton(self, master):
         try:
             self.btn_guardar = Button(
-                self.ventana, text="Insertar", relief="flat", background="#0051C8", cursor="hand1", foreground="white", command=lambda: self.insert()).place(x=750, y=340, width=90)
+                self.ventana, text="Insertar", relief="flat", background="#0051C8", cursor="hand1", foreground="white", command=lambda: self.insert(master)).place(x=750, y=340, width=90)
             self.btn_cancelar = Button(
                 self.ventana, text="Cerrar", relief="flat", background="red", cursor="hand1", foreground="white", command=lambda: self.cancelar()).place(x=850, y=340, width=90)
             self.btn_buscar = Button(
-                self.ventana, text="Filtrado Código", relief="flat", background="Green", cursor="hand1", foreground="white", command=lambda: self.buscarProvincia(self.buscar.get())).place(x=260, y=339, width=100)
+                self.ventana, text="Filtrado Código", relief="flat", background="Green", cursor="hand1", foreground="white", command=lambda: self.buscarProvincia(self.buscar.get(), master)).place(x=260, y=339, width=100)
 
         except:
-            pass
+            messagebox.showinfo(title="Error",
+                                message="Error al dibujar botón", parent=master)
 
-    def buscarProvincia(self, ref):
-        self.LimpiarTabla()
-        self.DibujarTabla(ref)
+    def buscarProvincia(self, ref, master):
+        try:
+            self.LimpiarTabla()
+            self.DibujarTabla(ref)
+        except print(0):
+            messagebox.showinfo(title="Error",
+                                message="Error al buscar la provincia", parent=master)
 
     def DibujarTabla(self, ref):
         try:
@@ -93,15 +99,15 @@ class App:
                     self.lista.insert('', 'end', values=i)
             else:
                 # Rellenar tabla
-                d = Data()
+                d = ControlMySQL()
                 elements = d.buscarFiltroCodigo(ref)
                 for i in elements:
                     self.lista.insert('', 'end', values=i)
         except:
             messagebox.showinfo(
-                title="Error", message="error")
+                title="Error", message="Error al filtrar", parent=self.getMaster())
 
-    def insert(self):
+    def insert(self, master):
         try:
             int(self.codigo.get())
             if self.codigo.get() != "":
@@ -114,10 +120,10 @@ class App:
                 self.DibujarTabla("")
             else:
                 messagebox.showinfo(
-                    title="Error", message="Necesitas insertar un codigo")
+                    title="Error", message="Necesitas insertar un codigo", parent=master)
         except:
             messagebox.showinfo(title="Error",
-                                message="Error al insertar")
+                                message="Error al insertar", parent=master)
 
     def LimpiarTabla(self):
         try:
@@ -126,7 +132,6 @@ class App:
             pass
 
     def obtenerFila(self, event):
-
         try:
             cod = StringVar()
             nom = StringVar()
@@ -148,11 +153,10 @@ class App:
             pop.geometry(posicion)
             pop.resizable(0, 0)
             pop.config(background="#24363e")
-            
+
             self.lbl_name = Label(pop, foreground="white",
                                   background="#24363e", text="Nombre", font=(8)).place(x=70, y=70)
 
-           
             txt_n = Entry(pop, textvariable=nom, font=(8)
                           ).place(x=160, y=70, width=180)
             # botones
@@ -162,7 +166,8 @@ class App:
             btn_eliminar = Button(pop, text="Eliminar", relief="flat", background="red", foreground="white",
                                   command=lambda: self.eliminarProvincia(pop, cod.get())).place(x=250, y=140, width=90)
         except:
-            pass
+            messagebox.showinfo(title="Base de Datos",
+                                message="No se ha podido seleccionar la fila", parent=self.getMaster())
 
     def editar(self, pop, c, nombre):
         try:
@@ -201,11 +206,15 @@ class App:
 
     def cancelar(self):
         try:
+            self.getMaster().destroy()
             messagebox.showinfo(title="Base de Datos",
-                                message="Se ha cerrado la base de datos")
+                                message="Se ha cerrado la base de datos de provincias")
         except:
             messagebox.showinfo(title="Error",
-                                message="Error al cerrar la base de datos")
+                                message="Error al cerrar la base de datos de provincias")
+
+    def getMaster(self):
+        return self.ventana
 
 
 def configProvincias():

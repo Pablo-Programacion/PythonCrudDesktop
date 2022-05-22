@@ -1,5 +1,5 @@
 import pymysql
-import conexion
+import conexion as conexion
 from ModeloProvinciasL import *
 
 
@@ -18,12 +18,13 @@ class ControlMySQL:
         return self.d.obtenerProvincias()
 
     def buscarFiltroCodigo(self, ref):
-        return self.d.buscarFiltroCodigo(self,ref)
+        return self.d.buscarFiltroCodigo(ref)
 
     def eliminarProvincia(self, ref):
         self.d.eliminarProvincia(ref)
 
     def UpdateItem(self, nombre, ref):
         self.d.UpdateItem(nombre,ref)
+
 
 

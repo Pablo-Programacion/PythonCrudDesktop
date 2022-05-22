@@ -1,5 +1,5 @@
 import pymysql
-import conexion
+import conexion as conexion
 
 
 class Data:

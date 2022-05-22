@@ -1,10 +1,9 @@
 import tkinter
 from tkinter import Label, messagebox
 from tkinter.font import BOLD
-import ViewProvincias
-import ViewCamion
 
-    
+from ViewProvincias import *
+from ControladorProvincias import *
 
 class general12:
     def __init__(self, master):
@@ -12,12 +11,12 @@ class general12:
     # Provincias
 
     def generate_new_window2():
-        window = ViewProvincias.configProvincias()
-        
+        window = configProvincias()
+
     # Camión
 
     def generate_new_window():
-        window2 = ViewCamion.configCamion()
+        window2 = 0
 
     def generate_new_window3():
         window3 = 0
@@ -32,10 +31,10 @@ class general12:
     root.lbl_nombre_general2 = Label(root, foreground="white",
                                      background="#314252", text="", font=(20), width=1300, height=7).place(x=0, y=15)
     root.lbl_nombre_general3 = Label(root, foreground="white",
-                                     background="#314252", text="HispaTrans",font=("Arial", 18)).place(x=102, y=20)
+                                     background="#314252", text="HispaTrans", font=("Arial", 18)).place(x=102, y=20)
     root.lbl_nombre_general4 = Label(root, foreground="white",
-                                     background="#314252", text="Almacenes",font=("Arial", 12)).place(x=120, y=55)
-    
+                                     background="#314252", text="Almacenes", font=("Arial", 12)).place(x=120, y=55)
+
     spawn_window_button = tkinter.Button(root,
                                          text="Flota de Vehículos",
                                          command=generate_new_window, relief="flat", font=(
@@ -62,9 +61,9 @@ class general12:
 
     spawn_window_button4 = tkinter.Button(root,
                                           text="Iniciar Sesión",
-                                          command=generate_new_window4, relief="flat",font=("Arial", 12), foreground="white",
+                                          command=generate_new_window4, relief="flat", font=("Arial", 12), foreground="white",
                                           background="#314252").place(x=110, y=750)
-    
+
     ancho_ventana = 1300
     alto_ventana = 800
     x_ventana = root.winfo_screenwidth() // 2 - ancho_ventana // 2

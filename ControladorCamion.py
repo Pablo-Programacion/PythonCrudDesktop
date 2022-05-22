@@ -1,6 +1,6 @@
 import pymysql
-import conexion
-from ModeloCamion import *
+import Controller.conexion as conexion
+from Model.ModeloCamion import *
 
 
 class ControlMySQL:
