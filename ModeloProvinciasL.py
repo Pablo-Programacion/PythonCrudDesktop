@@ -11,22 +11,18 @@ class Data:
     def insertProvincia(self, element):
         sql = "insert into provincia(Codigo,Nombre) values('{}', '{}')".format(
             element[0], element[1])
-       
+
         self.cursor.execute(sql)
-        self.conn.commit()  
+        self.conn.commit()
 
     def buscarFiltroCodigo(self, ref):
-        # we have ref like name of the element
         sql = "select * from provincia where Codigo = '{}'".format(ref)
         self.cursor.execute(sql)
-        # return the element or nil
         return self.cursor.fetchall()
 
     def buscarFiltroNombre(self, ref):
-        # we have ref like name of the element
         sql = "select * from provincia where Nombre = '{}'".format(ref)
         self.cursor.execute(sql)
-        # return the element or nil
         return self.cursor.fetchone()
 
     def obtenerProvincias(self):
@@ -40,9 +36,7 @@ class Data:
         self.conn.commit()
 
     def UpdateItem(self, nombre, ref):
-        # element contains the values and ref is the name of the item that we want change
         sql = "update provincia set Nombre = '{}' where Codigo = '{}'".format(
             nombre, ref)
-        # execute the query
         self.cursor.execute(sql)
-        self.conn.commit()  # guardamos cambios
+        self.conn.commit()
