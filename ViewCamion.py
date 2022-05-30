@@ -4,7 +4,7 @@ import tkinter
 from click import style
 from tkinter import *
 from tkinter import ttk
-from ControladorCamionero import *
+from ControladorCamion import *
 
 
 class App:
@@ -25,45 +25,35 @@ class App:
     def DibujarLabel(self, master):
         try:
             self.lbl_nombre_general = Label(self.ventana, foreground="white",
-                                            background="#202931", text="CAMIONEROS", font=(20)).place(x=1000, y=30)
-            self.lbl_dni = Label(self.ventana, foreground="white",
-                                 background="#202931", text="DNI", font=(8)).place(x=20, y=70)
-            self.lbl_nombre = Label(self.ventana, foreground="white",
-                                    background="#202931", text="Nombre", font=(8)).place(x=20, y=110)
-            self.lbl_telefono = Label(self.ventana, foreground="white",
-                                      background="#202931", text="Teléfono", font=(8)).place(x=20, y=150)
-            self.lbl_poblacion = Label(self.ventana, foreground="white",
-                                       background="#202931", text="Población", font=(8)).place(x=20, y=190)
-            self.lbl_direccion = Label(self.ventana, foreground="white",
-                                       background="#202931", text="Dirección", font=(8)).place(x=20, y=230)
-            self.lbl_salario = Label(self.ventana, foreground="white",
-                                     background="#202931", text="Salario", font=(8)).place(x=20, y=270)
+                                            background="#202931", text="CAMION", font=(20)).place(x=1000, y=30)
+            self.lbl_matricula = Label(self.ventana, foreground="white",
+                                       background="#202931", text="Matricula", font=(8)).place(x=20, y=70)
+            self.lbl_potencia = Label(self.ventana, foreground="white",
+                                      background="#202931", text="Potencia", font=(8)).place(x=20, y=110)
+            self.lbl_modelo = Label(self.ventana, foreground="white",
+                                    background="#202931", text="Modelo", font=(8)).place(x=20, y=150)
+            self.lbl_tipo = Label(self.ventana, foreground="white",
+                                  background="#202931", text="Tipo", font=(8)).place(x=20, y=190)
         except:
             messagebox.showinfo(title="Error",
                                 message="No se pudieron dibujar los labels", parent=master)
 
     def DibujarEntry(self, master):
         try:
-            self.dni = StringVar()
-            self.nombre = StringVar()
-            self.telefono = StringVar()
-            self.poblacion = StringVar()
-            self.direccion = StringVar()
-            self.salario = StringVar()
+            self.matricula = StringVar()
+            self.potencia = StringVar()
+            self.modelo = StringVar()
+            self.tipo = StringVar()
             self.buscar = StringVar()
 
-            self.txt_dni = Entry(self.ventana, font=(
-                'Arial', 12), textvariable=self.dni).place(x=120, y=70)
-            self.txt_nombre = Entry(self.ventana, font=(
-                'Arial', 12), textvariable=self.nombre).place(x=120, y=110)
-            self.txt_telefono = Entry(self.ventana, font=(
-                'Arial', 12), textvariable=self.telefono).place(x=120, y=150)
-            self.txt_poblacion = Entry(self.ventana, font=(
-                'Arial', 12), textvariable=self.poblacion).place(x=120, y=190)
-            self.txt_direccion = Entry(self.ventana, font=(
-                'Arial', 12), textvariable=self.direccion).place(x=120, y=230)
-            self.txt_salario = Entry(self.ventana, font=(
-                'Arial', 12), textvariable=self.salario).place(x=120, y=270)
+            self.txt_matricula = Entry(self.ventana, font=(
+                'Arial', 12), textvariable=self.matricula).place(x=120, y=70)
+            self.txt_potencia = Entry(self.ventana, font=(
+                'Arial', 12), textvariable=self.potencia).place(x=120, y=110)
+            self.txt_modelo = Entry(self.ventana, font=(
+                'Arial', 12), textvariable=self.modelo).place(x=120, y=150)
+            self.txt_tipo = Entry(self.ventana, font=(
+                'Arial', 12), textvariable=self.tipo).place(x=120, y=190)
             # Agregación de buscar
             self.txt_buscar = Entry(self.ventana, font=(
                 'Arial', 12), textvariable=self.buscar).place(x=60, y=340)
@@ -100,38 +90,35 @@ class App:
     def DibujarTabla(self, ref):
         try:
             self.lista = ttk.Treeview(self.ventana, columns=(
-                1, 2, 3, 4, 5, 6), show="headings", height="8")
+                1, 2, 3, 4), show="headings", height="8")
             # estilos de tabla
             estilo = ttk.Style()
             estilo.theme_use("clam")
             estilo.configure("Treeview.Heading", background="#0051C8",
                              relief="flat", foreground="black")
 
-            self.lista.heading(1, text="Dni")
-            self.lista.heading(2, text="Nombre")
-            self.lista.heading(3, text="Telefono")
-            self.lista.heading(4, text="Población")
-            self.lista.heading(5, text="Dirección")
-            self.lista.heading(6, text="Salario")
+            self.lista.heading(1, text="Matricula")
+            self.lista.heading(2, text="Potencia")
+            self.lista.heading(3, text="Modelo")
+            self.lista.heading(4, text="Tipo")
+
             self.lista.column(1, anchor=CENTER)
             self.lista.column(2, anchor=CENTER)
             self.lista.column(3, anchor=CENTER)
             self.lista.column(4, anchor=CENTER)
-            self.lista.column(5, anchor=CENTER)
-            self.lista.column(6, anchor=CENTER)
             self.lista.place(x=340, y=90, width=1400)
 
             # Crear evento al hacer doble click en la tabla
             self.lista.bind("<Double 1>", self.obtenerFila)
             if ref == "":
                 # Rellenar tabla
-                d = ControlMySQLCamionero()
-                elements = d.obtenerCamioneros()
+                d = ControlMySQLCamion()
+                elements = d.obtenerCamion()
                 for i in elements:
                     self.lista.insert('', 'end', values=i)
             else:
                 # Rellenar tabla
-                d = ControlMySQLCamionero()
+                d = ControlMySQLCamion()
                 elements = d.buscarFiltroCodigo(ref)
                 for i in elements:
                     self.lista.insert('', 'end', values=i)
@@ -141,27 +128,24 @@ class App:
 
     def insert(self, master):
         try:
-            int(self.telefono.get())
-            int(self.salario.get())
-            if self.dni.get() != "":
-                arr = [self.dni.get(), self.nombre.get(), self.telefono.get(
-                ), self.poblacion.get(), self.direccion.get(), self.salario.get()]
-                c = ControlMySQLCamionero()
-                c.insertCamionero(arr)
-                self.dni.set("")
-                self.nombre.set("")
-                self.telefono.set("")
-                self.poblacion.set("")
-                self.direccion.set("")
-                self.salario.set("")
+            int(self.potencia.get())
+            if self.matricula.get() != "":
+                arr = [self.matricula.get(), self.potencia.get(), self.modelo.get(
+                ), self.tipo.get()]
+                c = ControlMySQLCamion()
+                c.insertCamion(arr)
+                self.matricula.set("")
+                self.potencia.set("")
+                self.modelo.set("")
+                self.tipo.set("")
                 self.LimpiarTabla()
                 self.DibujarTabla("")
             else:
                 messagebox.showinfo(
-                    title="Error", message="Necesitas insertar un codigo", parent=master)
+                    title="Error", message="Necesitas insertar una matricula", parent=master)
         except Exception as e:
             messagebox.showinfo(title="Error",
-                                message=e, parent=master)
+                                message="Indica la potencia mediante un numero", parent=master)
 
     def LimpiarTabla(self):
         try:
@@ -171,28 +155,21 @@ class App:
 
     def obtenerFila(self, event):
         try:
-            dni = StringVar()
-            nombre = StringVar()
-            telefono = StringVar()
-            poblacion = StringVar()
-            direccion = StringVar()
-            salario = StringVar()
-
+            matricula = StringVar()
+            potencia = StringVar()
+            modelo = StringVar()
+            tipo = StringVar()
             nombreFila = self.lista.identify_row(event.y)
             elemento = self.lista.item(self.lista.focus())
             d = elemento['values'][0]
             n = elemento['values'][1]
             t = elemento['values'][2]
             p = elemento['values'][3]
-            di = elemento['values'][4]
-            s = elemento['values'][5]
 
-            dni.set(d)
-            nombre.set(n)
-            telefono.set(t)
-            poblacion.set(p)
-            direccion.set(di)
-            salario.set(s)
+            matricula.set(d)
+            potencia.set(n)
+            modelo.set(t)
+            tipo.set(p)
 
             pop = Toplevel(self.ventana)
             pop.title("Editar camionero")
@@ -206,44 +183,34 @@ class App:
             pop.geometry(posicion)
             pop.resizable(0, 0)
             pop.config(background="#24363e")
+            self.lbl_potencia = Label(pop, foreground="white",
+                                      background="#24363e", text="Potencia", font=(8)).place(x=70, y=70)
+            self.lbl_modelo = Label(pop, foreground="white",
+                                    background="#24363e", text="Modelo", font=(8)).place(x=70, y=100)
+            self.lbl_tipo = Label(pop, foreground="white",
+                                  background="#24363e", text="Tipo", font=(8)).place(x=70, y=130)
 
-            self.lbl_name = Label(pop, foreground="white",
-                                  background="#24363e", text="Nombre", font=(8)).place(x=70, y=70)
-            self.lbl_telefono = Label(pop, foreground="white",
-                                      background="#24363e", text="Telefono", font=(8)).place(x=70, y=100)
-            self.lbl_poblacion = Label(pop, foreground="white",
-                                       background="#24363e", text="Población", font=(8)).place(x=70, y=130)
-            self.lbl_direccion = Label(pop, foreground="white",
-                                       background="#24363e", text="Dirección", font=(8)).place(x=70, y=160)
-            self.lbl_salario = Label(pop, foreground="white",
-                                     background="#24363e", text="Salarios", font=(8)).place(x=70, y=190)
-
-            txt_n = Entry(pop, textvariable=nombre, font=(8)
+            txt_n = Entry(pop, textvariable=potencia, font=(8)
                           ).place(x=160, y=70, width=180)
-            txt_t = Entry(pop, textvariable=telefono, font=(8)
+            txt_t = Entry(pop, textvariable=modelo, font=(8)
                           ).place(x=160, y=100, width=180)
-            txt_p = Entry(pop, textvariable=poblacion, font=(8)
+            txt_p = Entry(pop, textvariable=tipo, font=(8)
                           ).place(x=160, y=130, width=180)
-            txt_di = Entry(pop, textvariable=direccion, font=(8)
-                           ).place(x=160, y=160, width=180)
-            txt_s = Entry(pop, textvariable=salario, font=(8)
-                          ).place(x=160, y=190, width=180)
             # botones
             btn_editar = Button(pop, text="Actualizar", relief="flat", background="#00CE54", foreground="white",
-                                command=lambda: self.editar(pop, d, nombre.get(), telefono.get(), poblacion.get(), direccion.get(), salario.get())).place(x=70, y=240, width=90)
+                                command=lambda: self.editar(pop, d, potencia.get(), modelo.get(), tipo.get())).place(x=70, y=240, width=90)
 
             btn_eliminar = Button(pop, text="Eliminar", relief="flat", background="red", foreground="white",
-                                  command=lambda: self.eliminarCamionero(pop, dni.get())).place(x=250, y=240, width=90)
+                                  command=lambda: self.eliminarCamionero(pop, matricula.get())).place(x=250, y=240, width=90)
         except:
             messagebox.showinfo(title="Base de Datos",
                                 message="No se ha podido seleccionar la fila", parent=self.getMaster())
 
-    def editar(self, pop, c, nombre, telefono, poblacion, direccion, salario):
+    def editar(self, pop, c, potencia, modelo, tipo):
         try:
-            if nombre != "":
-                j = ControlMySQLCamionero()
-                j.UpdateItem(nombre, telefono, poblacion,
-                             direccion, salario, c)
+            if modelo != "" or tipo != "":
+                j = ControlMySQLCamion()
+                j.UpdateItem(potencia, modelo, tipo, c)
                 messagebox.showinfo(title="Crud Paqueteria",
                                     message="Editado", parent=pop)
                 self.LimpiarTabla()
@@ -251,7 +218,7 @@ class App:
                 self.exitProgram(pop)
             else:
                 messagebox.showinfo(title="Error",
-                                    message="Necesitas insertar un nombre", parent=pop)
+                                    message="Necesitas insertar el modelo y el tipo", parent=pop)
 
         except Exception as e:
             messagebox.showinfo(title="Error",
@@ -261,8 +228,8 @@ class App:
         try:
             if n != "":
 
-                j = ControlMySQLCamionero()
-                j.eliminarCamionero(n)
+                j = ControlMySQLCamion()
+                j.eliminarCamion(n)
                 messagebox.showinfo(title="Eliminar",
                                     message="Se ha actualizado la base  de datos", parent=pop)
                 self.LimpiarTabla()
@@ -289,7 +256,7 @@ class App:
         return self.ventana
 
 
-def configCamionero():
+def configCamion():
     root = tkinter.Toplevel()
     root.title("Crud Paqueteria")
     # Centrar ventana en el medio

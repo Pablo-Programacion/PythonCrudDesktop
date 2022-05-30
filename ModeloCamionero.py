@@ -26,7 +26,7 @@ class Data2:
         return self.cursor.fetchall()
 
     def eliminarCamionero(self, ref):
-        sql = "delete from Camionero where Dni = '{}'".format(ref)
+        sql = "delete from camionero where dni = '{}'".format(ref)
         self.cursor.execute(sql)
         self.conn.commit()
 

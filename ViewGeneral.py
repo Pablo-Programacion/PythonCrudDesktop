@@ -5,7 +5,7 @@ from tkinter.font import BOLD
 from ViewProvincias import *
 from ControladorProvincias import *
 from ViewCamionero import *
-
+from ViewCamion import *
 
 class general12:
     general12 = 0
@@ -20,7 +20,7 @@ class general12:
     # Camión
 
     def generate_new_window():
-        window2 = 0
+        window = configCamion()
 
     def generate_new_window3():
         window3 = 0

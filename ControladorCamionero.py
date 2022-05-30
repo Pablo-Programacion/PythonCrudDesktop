@@ -21,6 +21,7 @@ class ControlMySQLCamionero:
 
     def eliminarCamionero(self, ref):
         self.d.eliminarCamionero(ref)
+        
 
     def UpdateItem(self, nombre,Telefono,Poblacion,Direccion,Salario, ref):
         self.d.UpdateItem(nombre,Telefono,Poblacion,Direccion,Salario,ref)
