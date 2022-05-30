@@ -1,11 +1,13 @@
 import tkinter
 from tkinter import Label, messagebox
 from tkinter.font import BOLD
+from ViewPaquete import configPaquete
 
 from ViewProvincias import *
 from ControladorProvincias import *
 from ViewCamionero import *
 from ViewCamion import *
+
 
 class general12:
     general12 = 0
@@ -22,8 +24,12 @@ class general12:
     def generate_new_window():
         window = configCamion()
 
+    # Paquete
+
     def generate_new_window3():
-        window3 = 0
+        window3 = configPaquete()
+
+    # Camionero
 
     def generate_new_window4():
         window = configCamionero()
