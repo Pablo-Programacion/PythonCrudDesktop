@@ -101,7 +101,7 @@ class App:
             self.DibujarTabla(ref)
         except print(0):
             messagebox.showinfo(title="Error",
-                                message="Error al buscar la provincia", parent=master)
+                                message="Error al buscar el paquete", parent=master)
 
     def DibujarTabla(self, ref):
         try:
@@ -146,7 +146,7 @@ class App:
                     self.lista.insert('', 'end', values=i)
         except Exception as e:
             messagebox.showinfo(
-                title="Error", message=e, parent=self.getMaster())
+                title="Error al dibujar la tabla", message=e, parent=self.getMaster())
 
     def insert(self, master):
         try:
@@ -168,10 +168,10 @@ class App:
                 self.DibujarTabla("")
             else:
                 messagebox.showinfo(
-                    title="Error", message="Necesitas insertar una matricula", parent=master)
+                    title="Error", message="Necesitas insertar un codigo", parent=master)
         except Exception as e:
             messagebox.showinfo(title="Error",
-                                message="Indica la potencia mediante un numero", parent=master)
+                                message="El codigo debe ser numerico", parent=master)
 
     def LimpiarTabla(self):
         try:
@@ -278,7 +278,7 @@ class App:
                 self.exitProgram(pop)
             else:
                 messagebox.showinfo(title="Error",
-                                    message="Necesitas insertar el modelo y el tipo", parent=pop)
+                                    message="Necesitas insertar el destinatario,dni camionero y cod provincia", parent=pop)
 
         except Exception as e:
             messagebox.showinfo(title="Error",
@@ -307,10 +307,10 @@ class App:
         try:
             self.getMaster().destroy()
             messagebox.showinfo(title="Base de Datos",
-                                message="Se ha cerrado la base de datos de provincias")
+                                message="Se ha cerrado la base de datos de paquetes")
         except:
             messagebox.showinfo(title="Error",
-                                message="Error al cerrar la base de datos de provincias")
+                                message="Error al cerrar la base de datos de paquetes")
 
     def getMaster(self):
         return self.ventana

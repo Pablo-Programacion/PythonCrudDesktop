@@ -85,7 +85,7 @@ class App:
             self.DibujarTabla(ref)
         except print(0):
             messagebox.showinfo(title="Error",
-                                message="Error al buscar la provincia", parent=master)
+                                message="Error al buscar el camion", parent=master)
 
     def DibujarTabla(self, ref):
         try:
@@ -124,7 +124,7 @@ class App:
                     self.lista.insert('', 'end', values=i)
         except Exception as e:
             messagebox.showinfo(
-                title="Error", message=e, parent=self.getMaster())
+                title="Error al dibujar la tabla", message=e, parent=self.getMaster())
 
     def insert(self, master):
         try:
@@ -142,7 +142,7 @@ class App:
                 self.DibujarTabla("")
             else:
                 messagebox.showinfo(
-                    title="Error", message="Necesitas insertar una matricula", parent=master)
+                    title="Error", message="Necesitas insertar la matricula", parent=master)
         except Exception as e:
             messagebox.showinfo(title="Error",
                                 message="Indica la potencia mediante un numero", parent=master)

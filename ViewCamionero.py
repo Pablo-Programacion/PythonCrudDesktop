@@ -5,7 +5,7 @@ from click import style
 from tkinter import *
 from tkinter import ttk
 from ControladorCamionero import *
-
+from validardni import *
 
 class App:
     root = 0
@@ -95,7 +95,7 @@ class App:
             self.DibujarTabla(ref)
         except print(0):
             messagebox.showinfo(title="Error",
-                                message="Error al buscar la provincia", parent=master)
+                                message="Error al los camioneros", parent=master)
 
     def DibujarTabla(self, ref):
         try:
@@ -143,7 +143,7 @@ class App:
         try:
             int(self.telefono.get())
             int(self.salario.get())
-            if self.dni.get() != "":
+            if self.dni.get() != "" and nifvalidator(self.dni.get()) == True :
                 arr = [self.dni.get(), self.nombre.get(), self.telefono.get(
                 ), self.poblacion.get(), self.direccion.get(), self.salario.get()]
                 c = ControlMySQLCamionero()
@@ -158,10 +158,10 @@ class App:
                 self.DibujarTabla("")
             else:
                 messagebox.showinfo(
-                    title="Error", message="Necesitas insertar un codigo", parent=master)
+                    title="Error", message="Necesitas insertar un dni valido", parent=master)
         except Exception as e:
             messagebox.showinfo(title="Error",
-                                message=e, parent=master)
+                                message="Error el telefono y salario debe de ser numerico", parent=master)
 
     def LimpiarTabla(self):
         try:
