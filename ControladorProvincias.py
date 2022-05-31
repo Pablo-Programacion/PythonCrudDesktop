@@ -1,7 +1,10 @@
+# Importando el módulo pymysql, el módulo de conexión y el módulo ModeloProvinciasL.
 import pymysql
 import conexion as conexion
 from ModeloProvinciasL import *
 
+# Es una clase que se conecta a una base de datos y luego llama a métodos de otra clase para realizar
+# operaciones en la base de datos.
 
 class ControlMySQL:
     d = Data()

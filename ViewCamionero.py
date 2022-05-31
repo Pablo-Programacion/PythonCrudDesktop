@@ -1,3 +1,4 @@
+# Importación de los módulos necesarios para la ejecución del programa.
 from doctest import master
 from tkinter import messagebox
 import tkinter
@@ -7,8 +8,19 @@ from tkinter import ttk
 from ControladorCamionero import *
 from validardni import *
 
+"""
+    @return Se está devolviendo la ventana raíz.
+    """
+
+
 class App:
     root = 0
+
+    """
+    Crea una ventana con una etiqueta, una entrada, un botón y una tabla.
+    
+    @param master La ventana principal
+    """
 
     def __init__(self, master):
         try:
@@ -21,6 +33,12 @@ class App:
         except:
             messagebox.showinfo(title="Error",
                                 message="No se pudieron dibujar los contains", parent=master)
+
+    """
+    Crea un montón de etiquetas.
+    
+    @param master La ventana principal.
+    """
 
     def DibujarLabel(self, master):
         try:
@@ -41,6 +59,12 @@ class App:
         except:
             messagebox.showinfo(title="Error",
                                 message="No se pudieron dibujar los labels", parent=master)
+
+    """
+    Crea un montón de variables, luego crea un montón de widgets de entrada y los coloca en la pantalla.
+    
+    @param master La ventana principal.
+    """
 
     def DibujarEntry(self, master):
         try:
@@ -72,9 +96,21 @@ class App:
             messagebox.showinfo(title="Error",
                                 message="Error en los entrys", parent=master)
 
+    """
+    Destruye la ventana y luego la actualiza.
+    
+    @param window La ventana que desea cerrar.
+    """
+
     def exitProgram(self, window):
         window.destroy()
         window.update()
+
+    """
+    Crea tres botones, uno de los cuales tiene una función lambda como comando.
+    
+    @param master La ventana principal
+    """
 
     def DibujarBoton(self, master):
         try:
@@ -89,6 +125,13 @@ class App:
             messagebox.showinfo(title="Error",
                                 message="Error al dibujar botón", parent=master)
 
+    """
+    Se busca a un camionero.
+    
+    @param ref es la referencia del camionero
+    @param master la ventana raíz
+    """
+
     def buscarCamionero(self, ref, master):
         try:
             self.LimpiarTabla()
@@ -96,6 +139,12 @@ class App:
         except print(0):
             messagebox.showinfo(title="Error",
                                 message="Error al los camioneros", parent=master)
+
+    """
+    Crea una tabla con los datos de la base de datos.
+    
+    @param ref La referencia a la ventana principal
+    """
 
     def DibujarTabla(self, ref):
         try:
@@ -139,11 +188,17 @@ class App:
             messagebox.showinfo(
                 title="Error", message=e, parent=self.getMaster())
 
+    """
+    Toma una lista de cadenas y las inserta en una base de datos.
+    
+    @param master la ventana raíz
+    """
+
     def insert(self, master):
         try:
             int(self.telefono.get())
             int(self.salario.get())
-            if self.dni.get() != "" and nifvalidator(self.dni.get()) == True :
+            if self.dni.get() != "" and nifvalidator(self.dni.get()) == True:
                 arr = [self.dni.get(), self.nombre.get(), self.telefono.get(
                 ), self.poblacion.get(), self.direccion.get(), self.salario.get()]
                 c = ControlMySQLCamionero()
@@ -163,11 +218,21 @@ class App:
             messagebox.showinfo(title="Error",
                                 message="Error el telefono y salario debe de ser numerico", parent=master)
 
+    """
+    Elimina todas las filas en la vista de árbol.
+    """
+
     def LimpiarTabla(self):
         try:
             self.lista.delete(*self.lista.get_children())
         except:
             pass
+
+    """
+    Una función que le permite editar los datos de una fila en una tabla.
+    
+    @param event El evento que activó la devolución de llamada.
+    """
 
     def obtenerFila(self, event):
         try:
@@ -238,6 +303,19 @@ class App:
             messagebox.showinfo(title="Base de Datos",
                                 message="No se ha podido seleccionar la fila", parent=self.getMaster())
 
+    """
+    Toma una cadena, y si no está vacía, llama a una función en otra clase y luego muestra un cuadro de
+    mensaje
+    
+    @param pop La ventana que se está utilizando
+    @param c codigo
+    @param nombre nombre
+    @param telefono En t
+    @param poblacion ciudad
+    @param direccion Dirección
+    @param salario En t
+    """
+
     def editar(self, pop, c, nombre, telefono, poblacion, direccion, salario):
         try:
             if nombre != "":
@@ -256,6 +334,13 @@ class App:
         except Exception as e:
             messagebox.showinfo(title="Error",
                                 message=e, parent=pop)
+
+    """
+    Elimina una fila de una tabla de base de datos.
+    
+    @param pop es la ventana que se abre
+    @param n el nombre del conductor
+    """
 
     def eliminarCamionero(self, pop, n):
         try:
@@ -276,6 +361,11 @@ class App:
             messagebox.showinfo(title="Error",
                                 message="Error al eliminar", parent=pop)
 
+    """
+    La función cancelar() se llama cuando el usuario hace clic en el botón cancelar. Cierra la base de
+    datos y muestra un mensaje.
+    """
+
     def cancelar(self):
         try:
             self.getMaster().destroy()
@@ -285,8 +375,20 @@ class App:
             messagebox.showinfo(title="Error",
                                 message="Error al cerrar la base de datos de provincias")
 
+    """
+    Devuelve la ventana maestra.
+    
+    @return El objeto ventana.
+    """
+
     def getMaster(self):
         return self.ventana
+
+    """
+    Crea una ventana con un título, un tamaño y un color de fondo.
+    
+    @return La ventana raíz.
+    """
 
 
 def configCamionero():

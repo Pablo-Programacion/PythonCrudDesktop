@@ -1,6 +1,10 @@
+# Importando el módulo pymysql, el módulo de conexión y el módulo ModeloPaquete.
 import pymysql
 import conexion as conexion
 from ModeloPaquete import *
+
+# Es una clase que se conecta a una base de datos MySQL y realiza operaciones CRUD en una tabla
+# llamada "paquete".
 
 
 class ControlMySQLPaquete:
@@ -23,4 +27,5 @@ class ControlMySQLPaquete:
         self.d.eliminarPaquete(ref)
 
     def UpdateItem(self, descripcion, destinatario, direccion, fecha, dni_camionero, cod_provincia, c):
-        self.d.UpdateItem(descripcion, destinatario, direccion, fecha, dni_camionero, cod_provincia, c)
+        self.d.UpdateItem(descripcion, destinatario, direccion,
+                          fecha, dni_camionero, cod_provincia, c)

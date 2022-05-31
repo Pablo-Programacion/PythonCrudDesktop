@@ -1,5 +1,9 @@
+# Importando el módulo pymysql y el módulo conexion.
 import pymysql
 import conexion as conexion
+
+# Es una clase que se conecta a una base de datos y realiza operaciones CRUD en una tabla llamada
+# camionero.
 
 
 class Data2:

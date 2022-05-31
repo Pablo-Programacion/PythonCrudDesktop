@@ -1,5 +1,9 @@
+# Importando el módulo pymysql y el módulo conexion.
 import pymysql
 import conexion as conexion
+
+# Es una clase que se conecta a una base de datos y realiza operaciones CRUD en una tabla llamada
+# "paquete".
 
 
 class Data4:
@@ -29,7 +33,7 @@ class Data4:
         self.cursor.execute(sql)
         self.conn.commit()
 
-    def UpdateItem(self,descripcion, destinatario, direccion, fecha, dni_camionero, cod_provincia, c):
+    def UpdateItem(self, descripcion, destinatario, direccion, fecha, dni_camionero, cod_provincia, c):
         sql = "update paquete set descripcion = '{}',destinatario = '{}',direccion = '{}',fecha = '{}',dni_camionero = '{}',cod_provincia = '{}' where codigo = '{}'".format(
             descripcion, destinatario, direccion, fecha, dni_camionero, cod_provincia, c)
         print(sql)

@@ -1,3 +1,4 @@
+# Importación de los módulos necesarios para la ejecución del programa.
 from doctest import master
 from tkinter import messagebox
 import tkinter
@@ -6,9 +7,22 @@ from tkinter import *
 from tkinter import ttk
 from ControladorCamion import *
 
+"""
+    Crea una ventana con un título y un color de fondo.
+
+    @return La ventana raíz.
+    """
+
 
 class App:
+
     root = 0
+
+    """
+    Crea una ventana con una etiqueta, una entrada, un botón y una tabla.
+    
+    @param master La ventana principal
+    """
 
     def __init__(self, master):
         try:
@@ -21,6 +35,12 @@ class App:
         except:
             messagebox.showinfo(title="Error",
                                 message="No se pudieron dibujar los contains", parent=master)
+
+    """
+    Crea una etiqueta para cada uno de los cuatro atributos de la clase.
+    
+    @param master La ventana principal.
+    """
 
     def DibujarLabel(self, master):
         try:
@@ -37,6 +57,13 @@ class App:
         except:
             messagebox.showinfo(title="Error",
                                 message="No se pudieron dibujar los labels", parent=master)
+
+    """
+    Crea un montón de objetos StringVar, luego crea un montón de widgets de entrada y luego los coloca
+    en la pantalla.
+    
+    @param master La ventana principal.
+    """
 
     def DibujarEntry(self, master):
         try:
@@ -62,9 +89,21 @@ class App:
             messagebox.showinfo(title="Error",
                                 message="Error en los entrys", parent=master)
 
+    """
+    Cierra la ventana.
+    
+    @param window La ventana en la que se encuentra actualmente el usuario.
+    """
+
     def exitProgram(self, window):
         window.destroy()
         window.update()
+
+    """
+    Crea tres botones, uno de los cuales tiene una función lambda como comando.
+    
+    @param master La ventana principal
+    """
 
     def DibujarBoton(self, master):
         try:
@@ -79,6 +118,13 @@ class App:
             messagebox.showinfo(title="Error",
                                 message="Error al dibujar botón", parent=master)
 
+    """
+    Se busca a un camionero.
+    
+    @param ref es la referencia del camionero
+    @param master la ventana raíz
+    """
+
     def buscarCamionero(self, ref, master):
         try:
             self.LimpiarTabla()
@@ -86,6 +132,12 @@ class App:
         except print(0):
             messagebox.showinfo(title="Error",
                                 message="Error al buscar el camion", parent=master)
+
+    """
+    Crea una tabla con los datos de la base de datos.
+    
+    @param ref La referencia al widget, en este caso, la vista de árbol.
+    """
 
     def DibujarTabla(self, ref):
         try:
@@ -126,6 +178,12 @@ class App:
             messagebox.showinfo(
                 title="Error al dibujar la tabla", message=e, parent=self.getMaster())
 
+    """
+    Toma los valores de los widgets de entrada y los inserta en la base de datos.
+    
+    @param master La ventana principal
+    """
+
     def insert(self, master):
         try:
             int(self.potencia.get())
@@ -147,11 +205,21 @@ class App:
             messagebox.showinfo(title="Error",
                                 message="Indica la potencia mediante un numero", parent=master)
 
+    """
+    Elimina todas las filas en la vista de árbol.
+    """
+
     def LimpiarTabla(self):
         try:
             self.lista.delete(*self.lista.get_children())
         except:
             pass
+
+    """
+    Una función que le permite editar los datos de una fila en una tabla.
+    
+    @param event El evento que activó la devolución de llamada.
+    """
 
     def obtenerFila(self, event):
         try:
@@ -206,6 +274,16 @@ class App:
             messagebox.showinfo(title="Base de Datos",
                                 message="No se ha podido seleccionar la fila", parent=self.getMaster())
 
+    """
+    Toma los valores de los cuadros de entrada y actualiza la base de datos con ellos.
+    
+    @param pop La ventana que se está editando.
+    @param c la clave principal de la tabla
+    @param potencia En t
+    @param modelo VarCadena()
+    @param tipo tipo de camión
+    """
+
     def editar(self, pop, c, potencia, modelo, tipo):
         try:
             int(potencia)
@@ -224,6 +302,13 @@ class App:
         except Exception as e:
             messagebox.showinfo(title="Error",
                                 message="Los valores introducidos son invalidos", parent=pop)
+
+    """
+    Elimina una fila de una tabla en una base de datos.
+    
+    @param pop es la ventana que se abre
+    @param n la identificación del conductor
+    """
 
     def eliminarCamionero(self, pop, n):
         try:
@@ -244,6 +329,10 @@ class App:
             messagebox.showinfo(title="Error",
                                 message="Error al eliminar", parent=pop)
 
+    """
+    Devuelve el objeto de ventana que se creó cuando se instancia la clase
+    """
+
     def cancelar(self):
         try:
             self.getMaster().destroy()
@@ -255,6 +344,12 @@ class App:
 
     def getMaster(self):
         return self.ventana
+
+    """
+    Crea una ventana con un título y un color de fondo.
+    
+    @return La ventana raíz.
+    """
 
 
 def configCamion():

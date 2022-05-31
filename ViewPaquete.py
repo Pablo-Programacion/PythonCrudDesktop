@@ -6,9 +6,20 @@ from tkinter import *
 from tkinter import ttk
 from ControladorPaquete import *
 
+"""
+    @return Se está devolviendo la ventana raíz.
+    """
+
 
 class App:
+
     root = 0
+
+    """
+    Crea una ventana con una etiqueta, una entrada, un botón y una tabla.
+    
+    @param master La ventana principal.
+    """
 
     def __init__(self, master):
         try:
@@ -21,6 +32,12 @@ class App:
         except:
             messagebox.showinfo(title="Error",
                                 message="No se pudieron dibujar los contains", parent=master)
+
+    """
+    Crea un montón de etiquetas.
+    
+    @param master La ventana principal.
+    """
 
     def DibujarLabel(self, master):
         try:
@@ -43,6 +60,12 @@ class App:
         except:
             messagebox.showinfo(title="Error",
                                 message="No se pudieron dibujar los labels", parent=master)
+
+    """
+    Crea un montón de widgets de entrada y los coloca en la pantalla.
+    
+    @param master La ventana principal.
+    """
 
     def DibujarEntry(self, master):
         try:
@@ -78,9 +101,21 @@ class App:
             messagebox.showinfo(title="Error",
                                 message="Error en los entrys", parent=master)
 
+    """
+    Cierra la ventana
+    
+    @param window La ventana que desea cerrar.
+    """
+
     def exitProgram(self, window):
         window.destroy()
         window.update()
+
+    """
+    Crea tres botones, uno de los cuales tiene una función lambda como comando.
+    
+    @param master La ventana principal
+    """
 
     def DibujarBoton(self, master):
         try:
@@ -95,6 +130,13 @@ class App:
             messagebox.showinfo(title="Error",
                                 message="Error al dibujar botón", parent=master)
 
+    """
+    Se busca a un camionero.
+    
+    @param ref es el número de referencia del paquete
+    @param master la ventana raíz
+    """
+
     def buscarCamionero(self, ref, master):
         try:
             self.LimpiarTabla()
@@ -102,6 +144,12 @@ class App:
         except print(0):
             messagebox.showinfo(title="Error",
                                 message="Error al buscar el paquete", parent=master)
+
+    """
+    Crea una tabla con los datos de la base de datos.
+    
+    @param ref la referencia a la ventana principal
+    """
 
     def DibujarTabla(self, ref):
         try:
@@ -148,6 +196,12 @@ class App:
             messagebox.showinfo(
                 title="Error al dibujar la tabla", message=e, parent=self.getMaster())
 
+    """
+    Toma una lista de valores y los inserta en una base de datos.
+    
+    @param master la ventana raíz
+    """
+
     def insert(self, master):
         try:
 
@@ -173,11 +227,21 @@ class App:
             messagebox.showinfo(title="Error",
                                 message="El codigo debe ser numerico", parent=master)
 
+    """
+    Elimina todas las filas en la vista de árbol.
+    """
+
     def LimpiarTabla(self):
         try:
             self.lista.delete(*self.lista.get_children())
         except:
             pass
+
+    """
+    Una función que le permite editar los datos de una fila en una tabla.
+    
+    @param event El evento que activó la devolución de llamada.
+    """
 
     def obtenerFila(self, event):
         try:
@@ -225,7 +289,7 @@ class App:
             self.lbl_Destinatario = Label(pop, foreground="white",
                                           background="#24363e", text="Destinatario", font=(8)).place(x=70, y=90)
             self.lbl_Direccion = Label(pop, foreground="white",
-                                          background="#24363e", text="Direccion", font=(8)).place(x=70, y=120)
+                                       background="#24363e", text="Direccion", font=(8)).place(x=70, y=120)
             self.lbl_Fecha = Label(pop, foreground="white",
                                    background="#24363e", text="Fecha", font=(8)).place(x=70, y=150)
             self.lbl_Dni_Camionero = Label(pop, foreground="white",
@@ -265,12 +329,26 @@ class App:
             messagebox.showinfo(title="Base de Datos",
                                 message="No se ha podido seleccionar la fila", parent=self.getMaster())
 
+    """
+    Toma los valores de los cuadros de entrada y actualiza la base de datos con ellos.
+    
+    @param pop La ventana que se abre
+    @param c codigo
+    @param descripcion Cuerda
+    @param destinatario cuerda
+    @param direccion Cuerda
+    @param fecha fecha
+    @param dni_camionero cuerda
+    @param cod_provincia es una clave foránea
+    """
+
     def editar(self, pop, c, descripcion, destinatario, direccion, fecha, dni_camionero, cod_provincia):
         try:
             int(c)
-            if destinatario != "" or dni_camionero != "" or cod_provincia !="":
+            if destinatario != "" or dni_camionero != "" or cod_provincia != "":
                 j = ControlMySQLPaquete()
-                j.UpdateItem(descripcion, destinatario, direccion, fecha, dni_camionero, cod_provincia, c)
+                j.UpdateItem(descripcion, destinatario, direccion,
+                             fecha, dni_camionero, cod_provincia, c)
                 messagebox.showinfo(title="Crud Paqueteria",
                                     message="Editado", parent=pop)
                 self.LimpiarTabla()
@@ -283,6 +361,13 @@ class App:
         except Exception as e:
             messagebox.showinfo(title="Error",
                                 message="Los valores introducidos son invalidos", parent=pop)
+
+    """
+    Elimina una fila de una tabla en una base de datos.
+    
+    @param pop es la ventana que se abre
+    @param n El nombre del paquete
+    """
 
     def eliminarPaquete(self, pop, n):
         try:
@@ -303,6 +388,10 @@ class App:
             messagebox.showinfo(title="Error",
                                 message="Error al eliminar", parent=pop)
 
+    """
+    Cierra la base de datos.
+    """
+
     def cancelar(self):
         try:
             self.getMaster().destroy()
@@ -312,8 +401,20 @@ class App:
             messagebox.showinfo(title="Error",
                                 message="Error al cerrar la base de datos de paquetes")
 
+    """
+    Devuelve la ventana maestra.
+    
+    @return El objeto ventana.
+    """
+
     def getMaster(self):
         return self.ventana
+
+    """
+    Crea una ventana con un título, un tamaño y un color de fondo.
+    
+    @return La ventana raíz.
+    """
 
 
 def configPaquete():

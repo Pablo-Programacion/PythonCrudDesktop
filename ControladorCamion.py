@@ -2,6 +2,8 @@ import pymysql
 import conexion as conexion
 from ModeloCamion import *
 
+# Es una clase que se conecta a una base de datos y realiza operaciones CRUD en ella.
+
 
 class ControlMySQLCamion:
     d = Data3()

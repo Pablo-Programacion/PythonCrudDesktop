@@ -7,8 +7,11 @@ from ViewProvincias import *
 from ControladorProvincias import *
 from ViewCamionero import *
 from ViewCamion import *
+from PIL import Image, ImageTk
+from datetime import date, time, datetime
 
 
+# Crea una ventana con unos pocos botones.
 class general12:
     general12 = 0
 
@@ -41,6 +44,29 @@ class general12:
 
     root.lbl_nombre_general = Label(root, foreground="white",
                                     background="#314252", text="", font=(20), width=35, height=800).place(x=0, y=0)
+    textinicial = """ 
+    A HispaTrans, Software de Gestión orientado a Empresas de Paquetería para Administrar de Forma Óptima y Fácil el Flujo de envío de Paquetes, Control de Flota de Vehículo…
+
+Esta herramienta nos permite llevar un control completo y detallado de su Empresa, tendrá acceso a herramientas especiales para tareas específicas, como lo son:
+
+- Registrar envíos (Paquetes).
+- Registrar nuevos trabajadores (Camioneros).
+- Controlar la flota de Vehículos de Transporte (Camiones).
+- Ver que Vehículos de Transporte, tiene asignado cada Trabajador (Camionero).
+- Búsqueda Avanzada de Envíos por Camionero (DNI) o Fecha de Envio (Paquete).
+- Editar y Eliminar cualquier tipo de Registro."""
+    img  = Image.open("foto.jpg") 
+    img = img.resize((500, 500), Image.ANTIALIAS)
+    photo=ImageTk.PhotoImage(img)
+    lab=Label(image=photo).place(x=500,y=340)
+
+    root.lbl_nombre_general3 = Label(root, foreground="black",
+                                     background="white", text=date.today(), font=("Arial", 10)).place(x=310, y=0)
+
+    root.lbl_nombre_general3 = Label(root, foreground="black",
+                                     background="white", text="Bienvenido", font=("Arial", 14)).place(x=760, y=170)
+    root.lbl_nombre_general3 = Label(root, foreground="black",
+                                     background="white", text=textinicial, font=("Arial", 9)).place(x=320, y=200)
     root.lbl_nombre_general2 = Label(root, foreground="white",
                                      background="#314252", text="", font=(20), width=1300, height=7).place(x=0, y=22)
     root.lbl_nombre_general3 = Label(root, foreground="white",
